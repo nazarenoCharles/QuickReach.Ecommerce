@@ -68,7 +68,7 @@ namespace QuickReach.Ecommerce.Test
         {
             var sut = new LoginManager();
             var username = "cnazareno@blastasia.com";
-            var password = "Bl@st123";
+            var password = "Bla@t123";
             var expected = true;
 
             var actual = sut.Validate(username, password);

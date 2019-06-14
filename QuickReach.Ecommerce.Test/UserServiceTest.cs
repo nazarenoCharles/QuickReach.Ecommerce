@@ -12,18 +12,16 @@ namespace QuickReach.Ecommerce.Test
         public void Register_WithValidUser_CallRepositorySave()
         {
             //Arrange
-            var mockuserRepository = new Mock<IUserRepository>();
-            var mockLoginManager = new Mock<ILoginManager>();
-            mockLoginManager.Setup((l) => l.ValidateUsername(It.IsAny<string>()) && l.ValidatePassword(It.IsAny<string>())).Returns(true);
-            
-
             var mockUserRepository = new Mock<IUserRepository>();
+            var mockLoginManager = new Mock<ILoginManager>();
+            mockLoginManager.Setup((l) => l.Validate(It.IsAny<string>(), (It.IsAny<string>()))).Returns(true);
+            
             var sut = new UserService(mockLoginManager.Object, mockUserRepository.Object);
 
             var user = new User
             {
                 Username = "cnazareno@blastasia.com",
-                Password = "Bl@st123"
+                Password = "Blast123"
             };
             //Act
             sut.RegisterUser(user);
@@ -35,13 +33,14 @@ namespace QuickReach.Ecommerce.Test
         {
             var mockUserRepository = new Mock<IUserRepository>();
             var mockLoginManager = new Mock<ILoginManager>();
-            mockLoginManager.Setup((l) => l.ValidateUsername(It.IsAny<string>()) && l.ValidatePassword(It.IsAny<string>())).Throws<InvalidFormatPasswordException>();
+            mockLoginManager.Setup((l) => l.Validate(It.IsAny<string>() ,(It.IsAny<string>()))).Throws<InvalidFormatPasswordException>();
             var user = new User
             {
                 Username = "cnazareno@blastasia.com",
-                Password = "Bl@st123"
+                Password = "Blast123"
             };
             var sut = new UserService(mockLoginManager.Object, mockUserRepository.Object);
+            
             Assert.Throws<InvalidFormatPasswordException>(() => sut.RegisterUser(user));
             mockUserRepository.Verify((r) => r.Save(user), Times.Never);
         }

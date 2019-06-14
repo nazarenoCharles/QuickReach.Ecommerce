@@ -24,6 +24,7 @@ namespace QuickReach.Ecommerce
             }
             this.userRepository.Save(user);
         }
+
     }
 
 }
